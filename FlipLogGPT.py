@@ -22,6 +22,62 @@ target_source_chunks = int(os.environ.get('TARGET_SOURCE_CHUNKS',4))
 
 from constants import CHROMA_SETTINGS
 
+def react_for_logs(query):
+    manual_react = f"""
+    
+    Find and report which logs breach the compliance policy. Provide actionable insights to mitigate the risk of future breaches.
+    System Log: 
+    [2023-08-20 12:15:32] [info] [client 192.168.0.1] GET /index.html HTTP/1.1 200 5124
+
+    Compliance Breaches:
+    Successful page request- The log entry shows a successful GET request (GET /index.html) from client IP 192.168.0.1, which returned a 200 status code. This indicates that the client accessed the homepage successfully, and the page size was 5124 bytes.
+
+    Actionable Insights:
+    Regularly review and monitor server configurations to ensure all required files and directories exist and are accessible.
+    Implement proper access controls and permissions to restrict unauthorized access to sensitive files or system resources.
+
+
+    Find and report which logs breach the compliance policy. Provide actionable insights to mitigate the risk of future breaches.
+    System Log: 
+    [2023-08-20 12:17:45] [error] [client 192.168.0.2] File does not exist: /var/www/html/includes/config.php
+
+    Compliance Breaches:
+    Missing file- The log entry indicates an error where the client at IP 192.168.0.2 requested a file (/var/www/html/includes/config.php) that does not exist. This could be an indication of a misconfiguration or an attempt to access sensitive files.
+
+    Actionable Insights:
+    Review the server configuration to ensure that the file path is correct and that sensitive files are not accessible to the public.
+    Monitor the IP address 192.168.0.2 for further suspicious activity or repeated attempts to access sensitive files.
+
+
+    Find and report which logs breach the compliance policy. Provide actionable insights to mitigate the risk of future breaches.
+    System Log:
+    [2023-08-20 12:19:10] [info] [client 192.168.0.3] POST /login.php HTTP/1.1 302 0
+
+    Compliance Breaches:
+    The log entry shows an info-level log indicating a POST request (POST /login.php) from client IP 192.168.0.3, which resulted in a 302 status code. This suggests a form submission, likely for user authentication or login.
+
+    Actionable Insights:
+    No immediate action is required unless there are suspicious patterns associated with this IP address.
+
+    Find and report which logs breach the compliance policy. Provide actionable insights to mitigate the risk of future breaches.
+    System Log:
+    {query}
+
+    """
+
+    return manual_react
+
+def react_for_system_policies(query):
+
+    manual_react = f"""
+        List out all the possible system policies that are being violated.
+        {query}
+    """
+
+    return manual_react
+    
+
+
 def main():
     # Parse the command line arguments
     args = parse_arguments()
@@ -51,7 +107,7 @@ def main():
 
         # Get the answer from the chain
         start = time.time()
-        res = qa(query)
+        res = qa(react_for_logs(query))
         answer, docs = res['result'], [] if args.hide_source else res['source_documents']
         end = time.time()
 
@@ -67,8 +123,7 @@ def main():
             print(document.page_content)
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='privateGPT: Ask questions to your documents without an internet connection, '
-                                                 'using the power of LLMs.')
+    parser = argparse.ArgumentParser(description='Interactive LLM for logs and security analysis with vectorstores')
     parser.add_argument("--hide-source", "-S", action='store_true',
                         help='Use this flag to disable printing of source documents used for answers.')
 

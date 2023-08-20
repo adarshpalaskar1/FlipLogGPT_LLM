@@ -162,7 +162,7 @@ def main():
     db.persist()
     db = None
 
-    print(f"Ingestion complete! You can now run privateGPT.py to query your documents")
+    print(f"Ingestion complete! You can now run FlipLogGPT.py to query your documents")
 
 
 if __name__ == "__main__":
