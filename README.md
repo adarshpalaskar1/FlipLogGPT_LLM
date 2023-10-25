@@ -1,4 +1,4 @@
-# privateGPT
+# FlipLogGPT
 Interactive LLM for logs and security analysis with vectorstores
 
 Built with [LangChain](https://github.com/hwchase17/langchain), [GPT4All](https://github.com/nomic-ai/gpt4all), [Chroma](https://www.trychroma.com/) and [SentenceTransformers](https://www.sbert.net/).
