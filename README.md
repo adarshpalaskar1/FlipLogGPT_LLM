@@ -3,6 +3,8 @@ Interactive LLM for logs and security analysis with vectorstores
 
 Built with [LangChain](https://github.com/hwchase17/langchain), [GPT4All](https://github.com/nomic-ai/gpt4all), [Chroma](https://www.trychroma.com/) and [SentenceTransformers](https://www.sbert.net/).
 
+# Block Diagram of the approach
+![fliploggpt](https://github.com/adarshpalaskar1/FlipLogGPT_LLM/assets/83298237/cc8b4935-08c9-425a-b8e3-aa7c0840e414)
 
 # Environment Setup
 In order to set your environment up to run the code here, first install all requirements:
